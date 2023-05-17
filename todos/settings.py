@@ -158,7 +158,8 @@ INTERNAL_IPS = [
 CSRF_COOKIE_SECURE = True
 
 CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:8000'
+    'http://localhost:8000',
+    "https://django-railway-todo-production.up.railway.app",
 ]
 
 
