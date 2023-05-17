@@ -1,0 +1,69 @@
+{% extends 'core/base.html' %} 
+
+{% block content %} 
+
+{% include 'core/components/header.html' %}
+
+<div class="container mx-auto px-6 py-8">
+    {% include 'boards/partials/todos_list.html' %}
+
+  <form
+    hx-post="{% url 'boards:partial_create_todo' board_id=board_id %}"
+    hx-target="#todos"
+  >
+    {% csrf_token %}
+    <input
+      class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+      type="text"
+      name="title"
+      placeholder="Add new todo"
+    />
+    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+      Add Board
+    </button>
+  </form>
+</div>
+
+{% endblock %} 
+
+{% block extra_js %}
+<script>
+  console.log('extra js is being loaded')
+  htmx.onLoad(function (content) {
+    var sortables = content.querySelectorAll(".sortable");
+    for (var i = 0; i < sortables.length; i++) {
+      var sortable = sortables[i];
+      new Sortable(sortable, {
+        animation: 150,
+        ghostClass: "blue-background-class",
+        group: "shared",
+        onAdd: function (evt) {
+          // The item that was moved
+          var item = evt.item;
+          // Find the input child element and update its name
+          var input = item.querySelector('input');
+          input.name = 'todos';
+          // Trigger the form submission
+          htmx.trigger(sortable.parentElement, 'submit');
+        },
+      });
+    }
+  
+    var sortablesNotCompleted = content.querySelectorAll(".sortable-nc");
+    for (var i = 0; i < sortablesNotCompleted.length; i++) {
+      var sortable = sortablesNotCompleted[i];
+      new Sortable(sortable, {
+        animation: 150,
+        ghostClass: "blue-background-class",
+        group: "shared",
+        onAdd: function (evt) {
+          var item = evt.item;
+          var input = item.querySelector('input');
+          input.name = 'todos-completed';
+          htmx.trigger(sortable.parentElement, 'submit');
+        },
+      });
+    }
+  });
+</script>
+{% endblock %}

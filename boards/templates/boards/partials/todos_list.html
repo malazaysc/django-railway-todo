@@ -1,0 +1,47 @@
+<div class="" id="todos">
+  <form
+    hx-post="{% url 'boards:partial_sort_todos' board_id=board_id %}"
+    hx-trigger="end"
+    hx-target="#todos"
+    class="flex"
+  >
+    {% csrf_token %}
+    <div class="px-2 w-1/2" id="todos-list">
+      <h2 class="text-lg font-bold mb-4">Not Completed</h2>
+
+      <div class="htmx-indicator">Updating...</div>
+      <div class="sortable">
+        {% for todo in todos %} {% if not todo.completed %}
+        <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+          <input
+            type="hidden"
+            name="todos"
+            value="{{ todo.id }}"
+            id="{{todo.id}}"
+          />
+          <h3 class="font-bold">{{ todo.title }}</h3>
+        </div>
+        {% endif %} {% endfor %}
+      </div>
+    </div>
+
+    <div class="px-2 w-1/2" id="completed-list">
+      <h2 class="text-lg font-bold mb-4">Completed</h2>
+
+      <div class="htmx-indicator">Updating...</div>
+      <div class="sortable-nc">
+        {% for todo in todos %} {% if todo.completed %}
+        <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+          <input
+            type="hidden"
+            name="todos-completed"
+            value="{{ todo.id }}"
+            id="{{todo.id}}"
+          />
+          <h3 class="font-semibold line-through">{{ todo.title }}</h3>
+        </div>
+        {% endif %} {% endfor %}
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,20 @@
+{% extends 'core/base.html' %} 
+
+{% block content %} 
+
+{% include 'core/components/header.html' %}
+
+<div class="container mx-auto px-6 py-8">
+    <h1 class="text-4xl font-bold mb-4">Boards</h1>
+    <form hx-post="{% url 'boards:partials_create_board' %}" hx-target="#boards" hx-trigger="submit">
+        {% csrf_token %}
+        <input type="text" name="name" placeholder="Add new board" required>
+        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          Add Board
+        </button>
+      </form>
+    
+      {% include 'boards/partials/boards_list.html' %}
+</div>
+
+{% endblock %} 

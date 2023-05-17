@@ -1,0 +1,39 @@
+{% load static tailwind_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}My Site{% endblock %}</title>
+
+    <!-- Add any CSS and JavaScript links here -->
+    {% tailwind_css %}
+    
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.8.6"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <main class="bg-slate-100 h-screen">
+        
+        {% block content %}
+        <!-- Content for individual pages will be injected here -->
+        {% endblock %}
+    </main>
+
+    <footer>
+        <!-- Add your site's footer content here -->
+    </footer>
+
+    {% block extra_js %}
+    <!-- Any js script tags -->
+    {% endblock %}
+</body>
+</html>
