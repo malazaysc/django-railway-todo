@@ -20,7 +20,7 @@ from boards import urls as boards_urls
 from core import urls as core_urls
 
 urlpatterns = [
-    path("__reload__/", include("django_browser_reload.urls")),
+    # path("__reload__/", include("django_browser_reload.urls")),
     path('admin/', admin.site.urls),
     path('boards/', include(boards_urls)),
     path('', include(core_urls))

@@ -1312,6 +1312,10 @@ select {
   user: passwd@;
 }
 
+.\[server\:main\] {
+  server: main;
+}
+
 .hover\:bg-blue-700:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(29 78 216 / var(--tw-bg-opacity));
