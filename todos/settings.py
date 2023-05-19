@@ -16,6 +16,9 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# ENVIRONMENT SETTINGS
+IS_DEVELOPMENT = os.environ.get("IS_DEVELOPMENT", True)
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -40,10 +43,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Third-party apps
-    # 'django_browser_reload',
     # tailwind related
     'tailwind',
     'theme',
+    'compressor', # flowbite related
     ####################
 
     # Local apps
@@ -51,6 +54,11 @@ INSTALLED_APPS = [
     'boards',
     'core'
 ]
+
+DEVELOPMENT_INSTALLED_APPS = [
+    'django_browser_reload',
+]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -60,16 +68,32 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # 'django_browser_reload.middleware.BrowserReloadMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',   
 ]
+
+DEVELOPMENT_MIDDLEWARE = [
+    'django_browser_reload.middleware.BrowserReloadMiddleware',
+]
+
+
+# DEVELOPMENT EXCLUSIVE SETTINGS
+if IS_DEVELOPMENT:
+    MIDDLEWARE += DEVELOPMENT_MIDDLEWARE
+    INSTALLED_APPS += DEVELOPMENT_INSTALLED_APPS
+
+####################
 
 ROOT_URLCONF = 'todos.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR / "core/templates",
+            BASE_DIR / "boards/templates",
+            BASE_DIR / "users/templates",
+            BASE_DIR / "theme/templates",
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -166,3 +190,7 @@ CSRF_TRUSTED_ORIGINS = [
 # Whitenoise
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
+# COMPRESSOR SETTINGS
+COMPRESS_ENABLED = os.environ.get("COMPRESS_ENABLED", True)
+COMPRESS_ROOT = STATIC_ROOT
+STATICFILES_FINDERS = ('compressor.finders.CompressorFinder',)
