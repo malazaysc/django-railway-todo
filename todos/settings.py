@@ -17,7 +17,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # ENVIRONMENT SETTINGS
-IS_DEVELOPMENT = os.environ.get("IS_DEVELOPMENT", True)
+IS_DEVELOPMENT = os.environ.get("IS_DEVELOPMENT", True) == "True" # default is True
 
 
 # Quick-start development settings - unsuitable for production
@@ -188,9 +188,9 @@ CSRF_TRUSTED_ORIGINS = [
 
 
 # Whitenoise
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+# STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-# COMPRESSOR SETTINGS
-COMPRESS_ENABLED = os.environ.get("COMPRESS_ENABLED", True)
-COMPRESS_ROOT = STATIC_ROOT
-STATICFILES_FINDERS = ('compressor.finders.CompressorFinder',)
+# # COMPRESSOR SETTINGS
+# COMPRESS_ENABLED = os.environ.get("COMPRESS_ENABLED", True)
+# COMPRESS_ROOT = STATIC_ROOT
+# STATICFILES_FINDERS = ('compressor.finders.CompressorFinder',)
