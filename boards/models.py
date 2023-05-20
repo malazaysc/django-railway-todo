@@ -19,6 +19,8 @@ class Todo(models.Model):
 
 class Board(models.Model):
     name = models.CharField(max_length=120)
+    subject = models.CharField(max_length=255)
+    """Subject will be used to generate for the GPT prompt, so it helps suggesting TODOs"""
 
     @property
     def not_completed_todos_count(self) -> int:
